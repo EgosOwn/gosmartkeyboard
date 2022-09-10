@@ -1,7 +1,7 @@
 weave:
-	srcweave --formatter srcweave-format --weave docs/ ReadMe.go.md security/Authentication.md
+	srcweave --formatter srcweave-format --weave docs/ ReadMe.go.md security/Authentication.md Dependencies.md
 tangle:
-	srcweave --formatter srcweave-format --tangle smartkeyboard/ ReadMe.go.md security/Authentication.md
+	srcweave --formatter srcweave-format --tangle smartkeyboard/ ReadMe.go.md security/Authentication.md EnvironmentVariables.md Dependencies.md
 clean:
 	rm -rf docs
 	find smartkeyboard/ -type f -not -name "*_test.go" -delete

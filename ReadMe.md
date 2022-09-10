@@ -46,54 +46,33 @@ A smart keyboard could, for example, be used for the following:
 First, we call
 
 --- entrypoint
-func main(){
-    fmt.Println("Hello, World!")
-}
+
+    func main(){
+        fmt.Println("Hello, World!")
+    }
+
 ---
 
 
 --- /main.go
-@{includes}
 
-@{set network bind globals}
+    package main
 
-@{entrypoint}
+    @{set network bind globals}
+
+    @{entrypoint}
 
 ---
 
-
-## Dependencies
-
-In order to avoid coding key press simulation for every major platform, we use [keybd_event](https://github.com/micmonay/keybd_event). This is a cross-platform library that uses the OS's native key press simulation.
-
-
---- include keybd event
-import(
-    "github.com/micmonay/keybd_event"
-)
----
-
-We also rely on gorilla/websocket for the websocket server:
-
---- include gorilla websocket
-import(
-    "github.com/gorilla/websocket"
-)
----
-
---- includes
-package main
-import(
-"fmt"
-)
----
 
 
 --- set network bind globals
-var string unixSocketPath
-var bool unixSocketPathExists
-var string tcpBindAddress
-var bool tcpBindAddressExists
-var string tcpBindPort
-var bool tcpBindPortExists
+
+    var string unixSocketPath
+    var bool unixSocketPathExists
+    var string tcpBindAddress
+    var bool tcpBindAddressExists
+    var string tcpBindPort
+    var bool tcpBindPortExists
+
 ---
