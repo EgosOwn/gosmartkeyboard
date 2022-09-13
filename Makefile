@@ -1,7 +1,7 @@
 weave:
-	srcweave --formatter srcweave-format --weave docs/ ReadMe.go.md security/Authentication.md Dependencies.md
+	srcweave --formatter srcweave-format --weave docs/ ReadMe.md security/Authentication.md EnvironmentVariables.md Dependencies.md Server.md
 tangle:
-	srcweave --formatter srcweave-format --tangle smartkeyboard/ ReadMe.go.md security/Authentication.md EnvironmentVariables.md Dependencies.md
+	srcweave --formatter srcweave-format --tangle smartkeyboard/ ReadMe.md security/Authentication.md EnvironmentVariables.md Dependencies.md Server.md
 clean:
 	rm -rf docs
 	find smartkeyboard/ -type f -not -name "*_test.go" -delete
@@ -9,8 +9,8 @@ clean:
 	rm go.sum
 
 test: tangle
-	-go mod init voidnet.tech/m/v2
-	go mod tidy
-	go test -v ./...
+	-cd smartkeyboard && go mod init keyboard.voidnet.tech
+	-cd smartkeyboard && go mod tidy
+	-cd smartkeyboard && go test -v ./...
 
 all: weave tangle

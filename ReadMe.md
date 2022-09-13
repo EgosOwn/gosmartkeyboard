@@ -45,20 +45,24 @@ A smart keyboard could, for example, be used for the following:
 
 First, we call
 
+``` go
+
 --- entrypoint
 
     func main(){
-        fmt.Println("Hello, World!")
+        server.StartServer()
     }
 
 ---
 
 
 --- /main.go
-
     package main
 
-    @{set network bind globals}
+    import(
+        "keyboard.voidnet.tech/server"
+    )
+
 
     @{entrypoint}
 
@@ -76,3 +80,4 @@ First, we call
     var bool tcpBindPortExists
 
 ---
+```
