@@ -36,7 +36,7 @@ if unixSocketPathExists {
 --- start websocket server
 
 func clientConnected(w http.ResponseWriter, r *http.Request) {
-	kb, err := keybd_event.NewKeyBonding()
+	keyboard, err := sendkeys.NewKBWrapWithOptions(sendkeys.Noisy)
 	if err != nil {
 		panic(err)
 	}
@@ -47,7 +47,22 @@ func clientConnected(w http.ResponseWriter, r *http.Request) {
 	}
 	defer c.Close()
 
+	// get auth token
+	_, message, err := c.ReadMessage()
+	if err != nil {
+		log.Println("read:", err)
+		return
+	}
+
+	if auth.CheckAuthToken(string(message)) != nil {
+		log.Println("invalid token")
+		return
+	}
+	c.WriteMessage(websocket.TextMessage, []byte("authenticated"))
+
+
 	for {
+		time.Sleep(25 * time.Millisecond)
 		_, message, err := c.ReadMessage()
 		if err != nil {
 			log.Println("read:", err)
@@ -55,16 +70,11 @@ func clientConnected(w http.ResponseWriter, r *http.Request) {
 		}
 		log.Printf("recv: %s", message)
 		message_string := string(message)
-		for _, char := range message_string {
-			// make sure that the char is a number
-			number, err := strconv.Atoi(string(char))
-			if err == nil {
-				kb.SetKeys(number)
-			}
+		err = keyboard.Type(message_string)
+		if err != nil {
+			log.Println("type:", err)
+			break
 		}
-		// sendkeys
-		//kb.SetKeys(30, 32, 33)
-		go kb.Launching()
 	}
 }
 
@@ -80,18 +90,20 @@ func StartServer() {
 
 
 ---
-```
+
 
 --- /server/server.go
 package server
 
 import(
     "net"
+	"time"
     "os"
     "net/http"
     "log"
+	"keyboard.voidnet.tech/auth"
     @{gorilla/websocket import string}
-    @{keybd_event import string}
+    @{sendkeys import string}
 )
 
 var listener net.Listener
@@ -101,3 +113,4 @@ var upgrader = websocket.Upgrader{} // use default options
 
 @{start websocket server}
 ---
+```

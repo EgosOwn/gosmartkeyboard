@@ -50,6 +50,7 @@ First, we call
 --- entrypoint
 
     func main(){
+        auth.ProvisionToken()
         server.StartServer()
     }
 
@@ -61,6 +62,7 @@ First, we call
 
     import(
         "keyboard.voidnet.tech/server"
+        "keyboard.voidnet.tech/auth"
     )
 
 

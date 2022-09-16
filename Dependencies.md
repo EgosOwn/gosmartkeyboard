@@ -33,14 +33,14 @@ We use sha3 to hash authentication tokens. It is not in the crypto standard libr
 
 ---
 
-# keybd_event
+# sendkeys
 
 
-In order to avoid coding key press simulation for every major platform, we use [keybd_event](https://github.com/micmonay/keybd_event). This is a cross-platform library that uses the OS's native key press simulation.
+In order to avoid coding key press simulation for every major platform, we use [sendkeys](https://github.com/yunginnanet/sendkeys). This is a cross-platform library that uses the OS's native key press simulation using [keybd_event](https://github.com/micmonay/keybd_event)
 
---- keybd_event import string
+--- sendkeys import string
 
-    "github.com/micmonay/keybd_event"
+    "github.com/EgosOwn/sendkeys"
 
 ---
 
