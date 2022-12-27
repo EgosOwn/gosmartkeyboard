@@ -1,22 +1,18 @@
-# GoSmartKeyboard Daemon
+# GoSmartKeyboard
 
+
+Copyright 2022 [Kevin Froman](https://chaoswebs.net/) [Licensed under GPLv3](LICENSE.md)
+
+Work in progress
 
 # Introduction
 
-This is a simple websocket server meant to accept a single connection, authenticate it, and stream UTF16 characters and send them as key strokes into the window manager.
+GoSmartKeyboard is a daemon that allows you to have a more powerful keyboarding experience. It is meant to be used with a secondary device, such as an Android phone or a raspberry pi.
+
+
+This is done with a simple websocket server meant to accept a single connection, authenticate it, and stream UTF16 characters and send them as key strokes into the window manager. **With a simple daemon like this we can enhance keyboarding with inteligent features.**
 
 The goal of this particular daemon is not to perfectly emulate a HID, so it may trip up on Windows UAC or game anticheat systems.
-
-
-Some points about the design of this project:
-
-* Written in [literate go](https://github.com/justinmeiners/srcweave), so this
-markdown book is actually the source code
-* The project is test-driven
-* KISS principle above All
-* Small and light core
-* Advanced features provided via plugins
-* Well defined [threat model](ThreatModel.md)
 
 
 
@@ -40,10 +36,24 @@ A smart keyboard could, for example, be used for the following:
 * Delay keystrokes by a few dozen or so milliseconds to reduce [key stroke timing biometrics](https://en.wikipedia.org/wiki/Keystroke_dynamics)
 
 
+
+Some points about the design of this project:
+
+* Written in go with the [literate](https://en.wikipedia.org/wiki/Literate_programming) tool [srcweave](https://github.com/justinmeiners/srcweave), so this
+markdown book is actually the source code
+* The project is test-driven
+* KISS principle above All
+* Small and light core
+* Advanced features provided via plugins
+* Well defined [threat model](ThreatModel.md)
+
+
 # Daemon Entrypoint
 
 
-First, we call
+Right out of the gate, we make sure a token is provisioned. In the future we will use the system keyring.
+
+Then we can start the web server and listen for websocket connections.
 
 ``` go
 
