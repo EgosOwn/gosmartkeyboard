@@ -3,10 +3,11 @@
 Keyboarding is a very sensitive activity, so this app naturally needs to encrypt and authenticate connections.
 
 All connections are encrypted using an external TLS proxy (e.g. [Caddy](https://caddyserver.com)) outside the
-scope of this project, but we perform application level authentication using two
-randomly generated UUIDv4s in a manner similar to a passphrase. @{token generation}
+scope of this project. 
 
-We hash the token using sha3-256 to avoid accidentally exposing the token to a
+We perform application level authentication using the system random device. @{token generation}
+
+We hash the 32 byte token using sha3-256 to avoid accidentally exposing the token to a
 readonly attacker. Since the token is very high entropy, we do not need a salt or
 KDF.
 
