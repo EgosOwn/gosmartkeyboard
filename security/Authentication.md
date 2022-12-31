@@ -12,10 +12,13 @@ KDF.
 
 ``` go
 --- token generation
-authToken = uuid.New().String() + uuid.New().String()
-hashedID := sha3.Sum256([]byte(authToken))
+authToken := [32]byte{}
+rand.Read(authToken[:])
 
-fmt.Println("This is your authentication token, it will only be shown once: " + authToken)
+authTokenString := base64.StdEncoding.EncodeToString(authToken[:])
+hashedID := sha3.Sum256(authToken[:])
+
+fmt.Println("This is your authentication token, it will only be shown once: " + authTokenString)
 ---
 ```
 
@@ -53,7 +56,8 @@ We use a constant time comparison to avoid timing attacks.
 func CheckAuthToken(token string) error {
     @{define authentication token file}
     // compare sha3_256 hash to hash in file
-    hashedToken := sha3.Sum256([]byte(token))
+    tokenBytes, err := base64.StdEncoding.DecodeString(token)
+    hashedToken := sha3.Sum256(tokenBytes)
     storedToken, err := os.ReadFile(authTokenFile)
     if err != nil {
         return err
@@ -66,11 +70,11 @@ func CheckAuthToken(token string) error {
 ---
 
 --- provision token function
-func ProvisionToken() (error){
+func ProvisionToken() (base64Token string, failed error){
     @{define authentication token file}
 
     if _, err := os.Stat(authTokenFile); err == nil {
-        return nil
+        return "", nil
     }
 
     @{token generation}
@@ -83,7 +87,7 @@ func ProvisionToken() (error){
         panic(err)
     }
     fo.Write(hashedID[:])
-    return nil
+    return base64Token, nil
 }
 ---
 
@@ -102,13 +106,14 @@ import(
     "path/filepath"
     "fmt"
     "errors"
+    "encoding/base64"
+    "crypto/rand"
     "crypto/subtle"
 @{sha3 import string}
-@{uuid import string}
 @{xdg import string}
 )
 
-var authToken = ""
+//var authToken = ""
 
 @{provision token function}
 

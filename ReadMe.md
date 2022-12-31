@@ -60,7 +60,8 @@ Then we can start the web server and listen for websocket connections.
 --- entrypoint
 
     func main(){
-        auth.ProvisionToken()
+        tokenBase64, _ := auth.ProvisionToken()
+        fmt.Println(tokenBase64)
         server.StartServer()
     }
 
@@ -71,6 +72,7 @@ Then we can start the web server and listen for websocket connections.
     package main
 
     import(
+        "fmt"
         "keyboard.voidnet.tech/server"
         "keyboard.voidnet.tech/auth"
     )

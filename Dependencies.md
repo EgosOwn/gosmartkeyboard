@@ -3,15 +3,6 @@
 This project has the following dependencies, excluding the Go standard library:
 
 
-# uuid
-
-We use uuidv4s to generate authentication tokens
-
---- uuid import string
-
-    "github.com/google/uuid"
-
----
 
 # xdg
 

@@ -1,4 +1,5 @@
 docs/*
+bin/*
 *.go
 !smartkeyboard/auth/*_test.go
 go.mod

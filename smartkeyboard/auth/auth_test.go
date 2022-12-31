@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"encoding/base64"
 	"golang.org/x/crypto/sha3"
 	"os"
 	"testing"
@@ -14,7 +15,7 @@ func TestAuthPasswordHashBad(t *testing.T) {
 
 	password := "wrong password"
 
-	result := checkAuthToken(password)
+	result := CheckAuthToken(password)
 	if result == nil {
 		t.Errorf("Expected error, got nil")
 	}
@@ -29,7 +30,7 @@ func TestAuthPasswordEmpty(t *testing.T) {
 
 	password := ""
 
-	result := checkAuthToken(password)
+	result := CheckAuthToken(password)
 	if result == nil {
 		t.Errorf("Expected error, got nil")
 	}
@@ -48,9 +49,9 @@ func TestAuthPasswordHashGood(t *testing.T) {
 	fo.Write(expectedHash[:])
 	t.Log("TestAuthPasswordHash")
 
-	password := "password"
+	password := base64.StdEncoding.EncodeToString([]byte("password"))
 
-	result := checkAuthToken(password)
+	result := CheckAuthToken(password)
 	if result != nil {
 		t.Errorf("Expected nil, got error")
 	}

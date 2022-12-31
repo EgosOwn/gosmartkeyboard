@@ -42,7 +42,7 @@ func StartServer() {
     @{create listener}
 	
     http.HandleFunc("/sendkeys", clientConnected)
-	http.HandleFunc("/activewindow", )
+	//http.HandleFunc("/activewindow", )
     http.Serve(listener, nil)
 
 
@@ -70,8 +70,8 @@ var listener net.Listener
 
 var upgrader = websocket.Upgrader{} // use default options
 
-
-@{start http server}
 @{streaming keyboard input}
+@{start http server}
+
 ---
 ```
