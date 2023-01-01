@@ -47,9 +47,9 @@ if authTokenFileIsSet == false {
 
 ## Checking authentication
 
-When a client connects, the [websocket server](Server.md) checks the token they send against the stored token.
+When a client connects, the [websocket endpoint](Server.md) checks the token they send against the stored token.
 
-We use a constant time comparison to avoid timing attacks.
+We use a constant time comparison to avoid timing attacks, although it is not clear if this is necessary in this case.
 
 
 ``` go

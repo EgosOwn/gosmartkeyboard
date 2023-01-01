@@ -14,6 +14,7 @@ This is done with a simple websocket server meant to accept a single connection,
 
 The goal of this particular daemon is not to perfectly emulate a HID, so it may trip up on Windows UAC or game anticheat systems.
 
+A client is included that simply connects and authenticates. It is meant to be used with unix philosophy modules, for example a password manager wrapper. A UI could then wrap the client and said modules.
 
 
 ## Why a smart keyboard?
@@ -48,7 +49,8 @@ markdown book is actually the source code
 * Well defined [threat model](ThreatModel.md)
 
 
-# Daemon Entrypoint
+# Entrypoint
+
 
 
 Right out of the gate, we make sure a token is provisioned. In the future we will use the system keyring.
@@ -60,6 +62,12 @@ Then we can start the web server and listen for websocket connections.
 --- entrypoint
 
     func main(){
+        
+        if os.Args[1] == "connect" {
+            @{start client}
+            os.Exit(0)
+        }
+
         tokenBase64, _ := auth.ProvisionToken()
         fmt.Println(tokenBase64)
         server.StartServer()
@@ -72,6 +80,7 @@ Then we can start the web server and listen for websocket connections.
     package main
 
     import(
+        "os"
         "fmt"
         "keyboard.voidnet.tech/server"
         "keyboard.voidnet.tech/auth"
