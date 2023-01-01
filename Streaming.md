@@ -26,6 +26,7 @@ func clientConnected(w http.ResponseWriter, r *http.Request) {
 
 	if auth.CheckAuthToken(string(message)) != nil {
 		log.Println("invalid token")
+		c.WriteMessage(websocket.TextMessage, []byte("invalid token"))
 		return
 	}
 	c.WriteMessage(websocket.TextMessage, []byte("authenticated"))

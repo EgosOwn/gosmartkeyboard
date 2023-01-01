@@ -82,6 +82,10 @@ Then we can start the web server and listen for websocket connections.
     import(
         "os"
         "fmt"
+        "io"
+        "strings"
+        "log"
+        @{gorilla/websocket import string}
         "keyboard.voidnet.tech/server"
         "keyboard.voidnet.tech/auth"
     )

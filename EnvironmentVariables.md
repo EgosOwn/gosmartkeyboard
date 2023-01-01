@@ -15,6 +15,14 @@ authTokenFile, authTokenFileIsSet := os.LookupEnv("KEYBOARD_AUTH_TOKEN_FILE")
 ---
 ```
 
+## Authentication token input (for client)
+
+--- get authTokenInput from environment
+
+    authTokenInput, authTokenInputExists := os.LookupEnv("KEYBOARD_AUTH")
+
+---
+
 
 ## HTTP Bind Settings
 
