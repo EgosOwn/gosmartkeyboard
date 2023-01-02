@@ -19,6 +19,7 @@ if unixSocketPathExists {
     listener, _ = net.Listen("unix", unixSocketPath)
 } else{
     if tcpBindAddressExists && tcpBindPortExists {
+        
         listener, _ = net.Listen("tcp", tcpBindAddress + ":" + tcpBindPort)
     } else {
         listener, _ = net.Listen("tcp", "127.0.0.1:8080")
@@ -34,13 +35,13 @@ if unixSocketPathExists {
 
 
 
-
+``` go
 --- start http server
 
 func StartServer() {
 
     @{create listener}
-	
+	fmt.Println("Listening on", listener.Addr())
     http.HandleFunc("/sendkeys", clientConnected)
 	//http.HandleFunc("/activewindow", )
     http.Serve(listener, nil)
@@ -60,6 +61,7 @@ import(
 	"time"
     "os"
     "net/http"
+    "fmt"
     "log"
 	"keyboard.voidnet.tech/auth"
     @{gorilla/websocket import string}

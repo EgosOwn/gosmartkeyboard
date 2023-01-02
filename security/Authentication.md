@@ -16,10 +16,9 @@ KDF.
 authToken := [32]byte{}
 rand.Read(authToken[:])
 
-authTokenString := base64.StdEncoding.EncodeToString(authToken[:])
+authTokenString = base64.StdEncoding.EncodeToString(authToken[:])
 hashedID := sha3.Sum256(authToken[:])
 
-fmt.Println("This is your authentication token, it will only be shown once: " + authTokenString)
 ---
 ```
 
@@ -71,7 +70,7 @@ func CheckAuthToken(token string) error {
 ---
 
 --- provision token function
-func ProvisionToken() (base64Token string, failed error){
+func ProvisionToken() (authTokenString string, failed error){
     @{define authentication token file}
 
     if _, err := os.Stat(authTokenFile); err == nil {
@@ -88,7 +87,7 @@ func ProvisionToken() (base64Token string, failed error){
         panic(err)
     }
     fo.Write(hashedID[:])
-    return base64Token, nil
+    return authTokenString, nil
 }
 ---
 

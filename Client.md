@@ -9,6 +9,16 @@ When GoSmartKeyboard is started in client mode, it does the following:
 5. If the server responds with "authenticated", we start reading keys from stdin and sending them to the server until EOF.
 
 
+--- handle client command
+
+if len(os.Args) > 1 && os.Args[1] == "connect" {
+    @{start client}
+    os.Exit(0)
+}
+
+---
+
+
 ## Connecting
 
 The base64 authentication token is loaded from the environment variable `KEYBOARD_AUTH`, if it does not exist we read it from stdin (base64 encoded), ended with a newline.
@@ -44,7 +54,9 @@ _, authResponse, err := client.ReadMessage()
 if err != nil {
     log.Fatal("read:", err)
 }
-if string(authResponse) != "authenticated" {
+if string(authResponse) == "authenticated" {
+    fmt.Println("authenticated")
+} else {
     log.Fatal("authentication failed")
 }
 

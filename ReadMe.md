@@ -63,13 +63,14 @@ Then we can start the web server and listen for websocket connections.
 
     func main(){
         
-        if os.Args[1] == "connect" {
-            @{start client}
-            os.Exit(0)
-        }
+        @{handle client command}
 
         tokenBase64, _ := auth.ProvisionToken()
-        fmt.Println(tokenBase64)
+        if len(tokenBase64) > 0 {
+            fmt.Println("This is your authentication token, it will only be shown once: " + tokenBase64)        
+        }
+
+
         server.StartServer()
     }
 
