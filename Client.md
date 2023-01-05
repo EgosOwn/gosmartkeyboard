@@ -91,13 +91,18 @@ We read keys from stdin and send them to the server until we get EOF
 
 for {
     var key string
-    _, err := fmt.Scanln(&key)
+    reader := bufio.NewReader(os.Stdin)
+    
+    rune, _, err := reader.ReadRune() //:= fmt.Scan(&key)
+    key = string(rune)
+
     if err != nil {
         if err == io.EOF {
             break
         }
         log.Fatal(err)
     }
+    fmt.Println("send" + strings.Replace(key, " ", "space", 10))
     err = client.WriteMessage(websocket.TextMessage, []byte(key))
     if err != nil {
         log.Fatal("write:", err)

@@ -16,6 +16,8 @@ The goal of this particular daemon is not to perfectly emulate a HID, so it may 
 
 A client is included that simply connects and authenticates. It is meant to be used with unix philosophy modules, for example a password manager wrapper. A UI could then wrap the client and said modules.
 
+**See [Building.md](Building.md) for instructions on how to build this [literate](https://en.wikipedia.org/wiki/Literate_programming) project.**
+
 
 ## Why a smart keyboard?
 
@@ -85,6 +87,7 @@ Then we can start the web server and listen for websocket connections.
         "fmt"
         "io"
         "strings"
+        "bufio"
         "log"
         @{gorilla/websocket import string}
         "keyboard.voidnet.tech/server"
