@@ -62,7 +62,6 @@ import(
     "os"
     "net/http"
     "fmt"
-    "strings"
     "log"
 	"keyboard.voidnet.tech/auth"
     @{gorilla/websocket import string}
