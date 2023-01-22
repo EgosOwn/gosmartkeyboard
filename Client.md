@@ -7,12 +7,20 @@ When GoSmartKeyboard is started in client mode, it does the following:
 3. Connect to the server.
 4 Send the auth token to the server.
 5. If the server responds with "authenticated", we start reading keys from stdin and sending them to the server until EOF.
+6. If KEYBOARD_FIFO is specified as an environment variable, we read from the path specified there instead as a named pipe.
+
 
 ``` go
 --- handle client command
 
 if len(os.Args) > 1 && os.Args[1] == "connect" {
-    @{start client}
+    @{get client fifo input file from environment}
+    @{setup client}
+    if clientFifioInputFileExists {
+        @{start client with fifo}
+        os.Exit(0)
+    }
+    @{start client with stdin}
     os.Exit(0)
 }
 
@@ -26,7 +34,7 @@ The base64 authentication token is loaded from the environment variable `KEYBOAR
 
 ``` go
 
---- start client
+--- setup client
 
 @{load connection URL from second CLI argument}
 @{get authTokenInput from environment}
@@ -80,14 +88,40 @@ if !strings.HasPrefix(connectionURL, "ws://") && !strings.HasPrefix(connectionUR
 
 ```
 
-## Sending keys
+## Sending keys from a named pipe
+
+``` go
+--- start client with fifo
+
+
+for {
+    input, err := ioutil.ReadFile(clientFifoInputFile)
+    if err != nil {
+        log.Fatal(err)
+    }
+    if len(input) > 0 {
+        fmt.Println("send" + strings.Replace(string(input), " ", "space", 10))
+        err = client.WriteMessage(websocket.TextMessage, input)
+        if err != nil {
+            log.Fatal("write:", err)
+        }
+    }
+
+}
+
+---
+```
+
+
+
+## Sending keys from stdin
 
 
 We read keys from stdin and send them to the server until we get EOF
 
 ``` go
 
---- start client +=
+--- start client with stdin
 
 reader := bufio.NewReader(os.Stdin)
 for {

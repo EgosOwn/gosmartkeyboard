@@ -88,6 +88,7 @@ Then we can start the web server and listen for websocket connections.
         "io"
         "strings"
         "bufio"
+        "io/ioutil"
         "log"
         @{gorilla/websocket import string}
         "keyboard.voidnet.tech/server"

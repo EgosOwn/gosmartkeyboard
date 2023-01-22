@@ -24,6 +24,14 @@ authTokenFile, authTokenFileIsSet := os.LookupEnv("KEYBOARD_AUTH_TOKEN_FILE")
 ---
 
 
+## Client fifo
+
+--- get client fifo input file from environment
+
+    clientFifoInputFile, clientFifioInputFileExists := os.LookupEnv("KEYBOARD_FIFO")
+
+---
+
 ## HTTP Bind Settings
 
 
