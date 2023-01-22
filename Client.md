@@ -8,7 +8,7 @@ When GoSmartKeyboard is started in client mode, it does the following:
 4 Send the auth token to the server.
 5. If the server responds with "authenticated", we start reading keys from stdin and sending them to the server until EOF.
 
-
+``` go
 --- handle client command
 
 if len(os.Args) > 1 && os.Args[1] == "connect" {
@@ -17,6 +17,7 @@ if len(os.Args) > 1 && os.Args[1] == "connect" {
 }
 
 ---
+```
 
 
 ## Connecting
@@ -88,10 +89,10 @@ We read keys from stdin and send them to the server until we get EOF
 
 --- start client +=
 
-
+reader := bufio.NewReader(os.Stdin)
 for {
     var key string
-    reader := bufio.NewReader(os.Stdin)
+    
     
     rune, _, err := reader.ReadRune() //:= fmt.Scan(&key)
     key = string(rune)

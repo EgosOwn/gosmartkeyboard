@@ -104,7 +104,6 @@ package auth
 import(
     "os"
     "path/filepath"
-    "fmt"
     "errors"
     "encoding/base64"
     "crypto/rand"

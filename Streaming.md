@@ -41,10 +41,12 @@ func clientConnected(w http.ResponseWriter, r *http.Request) {
 		}
 		log.Printf("recv: %s", message)
 		message_string := string(message)
+		if message_string == "" {
+			message_string = "\n"
+		}
 		err = keyboard.Type(message_string)
 		if err != nil {
 			log.Println("type:", err)
-			break
 		}
 	}
 }
