@@ -31,7 +31,7 @@ func clientConnected(w http.ResponseWriter, r *http.Request) {
 	}
 	c.WriteMessage(websocket.TextMessage, []byte("authenticated"))
 
-
+	var parts []string
 	for {
 		time.Sleep(25 * time.Millisecond)
 		_, message, err := c.ReadMessage()
@@ -44,9 +44,17 @@ func clientConnected(w http.ResponseWriter, r *http.Request) {
 		if message_string == "" {
 			message_string = "\n"
 		}
-		err = keyboard.Type(message_string)
-		if err != nil {
-			log.Println("type:", err)
+		
+		parts = strings.Split(message_string, "\n")
+
+		for _, part := range parts {
+			err = keyboard.Type(part)
+			if err != nil {
+				log.Println("type:", err)
+			}
+			if len(parts) > 1 {
+				keyboard.Enter()
+			}
 		}
 	}
 }
