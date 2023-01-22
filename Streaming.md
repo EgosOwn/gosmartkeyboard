@@ -2,7 +2,7 @@
 
 We use the Gorilla websocket library to handle the websocket connection.
 
-Most of the time, we can use sendkeys (which uses libinput) to effeciently press keys. However, if we need to send a character that sendkeys doesn't know about, we can use the xdotool command.
+Most of the time, we can use sendkeys (which uses libinput) to effeciently press keys. However, if we need to send a character that sendkeys doesn't know about, we can use the xdotool command. xdotool is also useful if one does not want to use root.
 
 xdotool spawns a new process for each keypress, so it's not as effecient as sendkeys.
 
@@ -13,6 +13,10 @@ To specify xdotool usage, the client should send a message with the format `{kb_
 
 func clientConnected(w http.ResponseWriter, r *http.Request) {
 	keyboard, err := sendkeys.NewKBWrapWithOptions(sendkeys.Noisy)
+
+	// regex if string has characters we need to convert to key presses
+	characterRegex, _ := regexp.Compile(`[^\x08]\x08|\t|\n`)
+
 	if err != nil {
 		panic(err)
 	}
@@ -65,21 +69,37 @@ Sending the keys is a bit tricky as we need to manually convert backspace, tab, 
 
 --- send keys to system
 
+doXDoTool := func(command string, keys string)(err error) {
+	cmd := exec.Command("xdotool", command, keys)
+	return cmd.Run()
+}
+
 if strings.HasPrefix(message_string, "{kb_cmd:xdotool}:") {
 	message_string = strings.TrimPrefix(message_string, "{kb_cmd:xdotool}:")
 	if message_string == "" {
 		message_string = "\n"
 	}
 
-	// regex if string has characters we need to convert to key presses
-	// if it does, convert them and send them
-	// if it doesn't, send the whole string
 
-	cmd := exec.Command("xdotool", "type", message_string)
-	err = cmd.Run()
-	if err != nil {
-		log.Println("xdotool:", err)
+	if characterRegex.MatchString(message_string) {
+		for _, character := range message_string {
+			charString := string(character)
+			if charString == "\n" {
+				charString = "Enter"
+			} else if charString == "\t" {
+				charString = "Tab"
+			} else if charString == "\b" {
+				charString = "BackSpace"
+			} else{
+				doXDoTool("type", charString)
+				continue
+			}
+			err = doXDoTool("key", charString)
+		}
+		continue
 	}
+
+	doXDoTool("type", message_string)
 	continue
 }
 
@@ -102,4 +122,5 @@ for _, character := range message_string {
 		log.Println("type:", err)
 	}
 }
+---
 ```
