@@ -38,6 +38,7 @@ The base64 authentication token is loaded from the environment variable `KEYBOAR
 
 @{load connection URL from second CLI argument}
 @{get authTokenInput from environment}
+@{add xdotool if non qwerty function}
 
 if !authTokenInputExists {
     fmt.Print("Enter authentication token: ")
@@ -94,11 +95,15 @@ if !strings.HasPrefix(connectionURL, "ws://") && !strings.HasPrefix(connectionUR
 --- start client with fifo
 
 
+var inputString string
+
 for {
     input, err := ioutil.ReadFile(clientFifoInputFile)
     if err != nil {
         log.Fatal(err)
     }
+    inputString = addXDoToolIfNonQWERTY(string(input))
+    input = []byte(inputString)
     if len(input) > 0 {
         fmt.Println("send" + strings.Replace(string(input), " ", "space", 10))
         err = client.WriteMessage(websocket.TextMessage, input)
@@ -129,7 +134,7 @@ for {
     
     
     rune, _, err := reader.ReadRune() //:= fmt.Scan(&key)
-    key = string(rune)
+    key = addXDoToolIfNonQWERTY(string(rune))
 
     if err != nil {
         if err == io.EOF {
@@ -146,4 +151,27 @@ for {
 
 ---
 
+```
+
+# Handling unicode outside of the ASCII set
+
+``` go
+
+--- add xdotool if non qwerty function --- noWeave
+addXDoToolIfNonQWERTY := func(message string)(string) {
+    if strings.HasPrefix(message, "{kb_cmd:xdotool}:") {
+        return message
+    }
+    for _, char := range message {
+        if char < 32 || char > 126  {
+            if char != 8 && char != 9 && char != 10 {
+                return "{kb_cmd:xdotool}:" + message
+            }
+        }
+    }
+    return message
+
+}
+
+---
 ```
