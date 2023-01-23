@@ -16,7 +16,7 @@ When GoSmartKeyboard is started in client mode, it does the following:
 if len(os.Args) > 1 && os.Args[1] == "connect" {
     @{get client fifo input file from environment}
     @{setup client}
-    if clientFifioInputFileExists {
+    if clientFifoInputFileExists {
         @{start client with fifo}
         os.Exit(0)
     }
