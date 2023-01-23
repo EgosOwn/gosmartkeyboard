@@ -14,8 +14,6 @@ To specify xdotool usage, the client should send a message with the format `{kb_
 func clientConnected(w http.ResponseWriter, r *http.Request) {
 	keyboard, err := sendkeys.NewKBWrapWithOptions(sendkeys.Noisy)
 
-	// regex if string has characters we need to convert to key presses
-	characterRegex, _ := regexp.Compile(`[^\x08]\x08|\t|\n`)
 
 	if err != nil {
 		panic(err)
@@ -63,14 +61,23 @@ func clientConnected(w http.ResponseWriter, r *http.Request) {
 
 # Sending the keys
 
-Sending the keys is a bit tricky as we need to manually convert backspace, tab, and enter.
+Sending the keys is a bit tricky as we need to manually convert backspace, tab, enter and modifier keys.
 
 ``` go
 
 --- send keys to system
 
+
+// regex if string has characters we need to convert to key presses
+characterRegex, _ := regexp.Compile(`[^\x08]\x08|\t|\n`)
+
 doXDoTool := func(command string, keys string)(err error) {
-	cmd := exec.Command("xdotool", command, keys)
+	var cmd *exec.Cmd
+	if command == "type" {
+		cmd = exec.Command("xdotool", command, "--delay", "25", keys)
+	} else {
+		cmd = exec.Command("xdotool", command, keys)
+	}
 	return cmd.Run()
 }
 
@@ -94,33 +101,43 @@ if strings.HasPrefix(message_string, "{kb_cmd:xdotool}:") {
 				doXDoTool("type", charString)
 				continue
 			}
+			// key is required for special characters
 			err = doXDoTool("key", charString)
+			continue
 		}
 		continue
+	} else {
+		doXDoTool("type", message_string)
 	}
-
-	doXDoTool("type", message_string)
 	continue
 }
 
-for _, character := range message_string {
-	charString := string(character)
-	if charString == "\n" {
-		keyboard.Enter()
+if characterRegex.MatchString(message_string) {
+	for _, character := range message_string {
+		charString := string(character)
+		if charString == "\n" {
+			keyboard.Enter()
+			continue
+		}
+		if charString == "\t" {
+			keyboard.Tab()
+			continue
+		}
+		if charString == "\b" {
+			keyboard.BackSpace()
+			continue
+		}
+		err = keyboard.Type(charString)
+		if err != nil {
+			log.Println("type:", err)
+		}
 		continue
 	}
-	if charString == "\t" {
-		keyboard.Tab()
-		continue
-	}
-	if charString == "\b" {
-		keyboard.BackSpace()
-		continue
-	}
-	err = keyboard.Type(charString)
-	if err != nil {
-		log.Println("type:", err)
-	}
+	continue
+}
+err = keyboard.Type(message_string)
+if err != nil {
+	log.Println("type:", err)
 }
 ---
 ```
