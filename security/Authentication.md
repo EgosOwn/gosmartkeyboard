@@ -98,7 +98,7 @@ The following is the structure of the authentication package.
 Both CheckAuthToken and ProvisionToken are exported.
 The former is used by the server on client connect and the latter is called on startup.
 
---- /auth/auth.go
+--- /server/auth/auth.go
 package auth
 
 import(

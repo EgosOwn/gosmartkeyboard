@@ -1,9 +1,9 @@
 # GoSmartKeyboard Client
 
-When GoSmartKeyboard is started in client mode, it does the following:
+When the GoSmartKeyboard client is started, it does the following:
 
-1. Load the connection URL from the second CLI argument.
-2. Load the auth token from the environment variable `KEYBOARD_AUTH` or stdin.
+1. Load the connection URL from the first CLI argument.
+2. Load the auth token from the environment variable `KEYBOARD_AUTH` or stdin if it does not exist.
 3. Connect to the server.
 4 Send the auth token to the server.
 5. If the server responds with "authenticated", we start reading keys from stdin and sending them to the server until EOF.
@@ -13,7 +13,7 @@ When GoSmartKeyboard is started in client mode, it does the following:
 ``` go
 --- handle client command
 
-if len(os.Args) > 1 && os.Args[1] == "connect" {
+if len(os.Args) > 1 {
     @{get client fifo input file from environment}
     @{setup client}
     if clientFifoInputFileExists {
@@ -172,6 +172,28 @@ addXDoToolIfNonQWERTY := func(message string)(string) {
     return message
 
 }
+
+---
+```
+
+
+``` go
+--- /client/main-client.go
+package main
+import (
+    "strings"
+    "io/ioutil"
+    "io"
+    "bufio"
+    "log"
+    "fmt"
+    "os"
+@{gorilla/websocket import string}
+
+)
+
+func main(){@{handle client command}}
+
 
 ---
 ```

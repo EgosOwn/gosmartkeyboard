@@ -10,9 +10,12 @@ clean:
 	rm go.sum
 
 build: tangle
-	- cd smartkeyboard && go mod init keyboard.voidnet.tech
-	- cd smartkeyboard && go mod tidy
-	- cd smartkeyboard && go build -o ../bin/keyboard
+	- cd smartkeyboard/server && go mod init keyboard.voidnet.tech
+	- cd smartkeyboard/server && go mod tidy
+	- cd smartkeyboard/server && go build -o ../../bin/keyboard
+	- cd smartkeyboard/client && go mod init keyboard.voidnet.tech
+	- cd smartkeyboard/client && go mod tidy
+	- cd smartkeyboard/client && go build -o ../../bin/keyboard-client
 
 
 test: tangle

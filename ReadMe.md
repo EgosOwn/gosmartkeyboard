@@ -65,8 +65,6 @@ Then we can start the web server and listen for websocket connections.
 
     func main(){
         
-        @{handle client command}
-
         tokenBase64, _ := auth.ProvisionToken()
         if len(tokenBase64) > 0 {
             fmt.Println("This is your authentication token, it will only be shown once: " + tokenBase64)        
@@ -79,7 +77,7 @@ Then we can start the web server and listen for websocket connections.
 ---
 
 
---- /main.go
+--- /server/main.go
     package main
 
     import(

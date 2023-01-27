@@ -53,7 +53,7 @@ func StartServer() {
 ---
 
 
---- /server/server.go
+--- /server/server/server.go
 package server
 
 import(
