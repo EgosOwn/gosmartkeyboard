@@ -75,11 +75,11 @@ if string(authResponse) == "authenticated" {
 
 --- load connection URL from second CLI argument --- noWeave
 
-if len(os.Args) < 3 {
+if len(os.Args) < 2 {
     log.Fatal("missing connection URL")
 }
 
-connectionURL := os.Args[2]
+connectionURL := os.Args[1]
 
 if !strings.HasPrefix(connectionURL, "ws://") && !strings.HasPrefix(connectionURL, "wss://") {
     log.Fatal("connection URL must start with ws:// or wss://")
@@ -122,7 +122,10 @@ for {
 ## Sending keys from stdin
 
 
-We read keys from stdin and send them to the server until we get EOF
+We read keys from stdin and send them to the server until we get EOF.
+
+We specify xdotool if the key is not a QWERTY key or if KEYBOARD_ALWAYS_XDOTOOL is set to true.
+
 
 ``` go
 
@@ -159,6 +162,7 @@ for {
 
 --- add xdotool if non qwerty function --- noWeave
 addXDoToolIfNonQWERTY := func(message string)(string) {
+    
     if strings.HasPrefix(message, "{kb_cmd:xdotool}:") {
         return message
     }

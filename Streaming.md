@@ -110,6 +110,33 @@ if strings.HasPrefix(message_string, "{kb_cmd:xdotool}:") {
 		doXDoTool("type", message_string)
 	}
 	continue
+} else if strings.HasPrefix(message_string, "{kb_cmd:xdotoolk}:") {
+	message_string = strings.TrimPrefix(message_string, "{kb_cmd:xdotoolk}:")
+	if message_string == "" {
+		message_string = "\n"
+	}
+	if characterRegex.MatchString(message_string) {
+		for _, character := range message_string {
+			charString := string(character)
+			if charString == "\n" {
+				charString = "Enter"
+			} else if charString == "\t" {
+				charString = "Tab"
+			} else if charString == "\b" {
+				charString = "BackSpace"
+			} else{
+				doXDoTool("key", charString)
+				continue
+			}
+			// key is required for special characters
+			err = doXDoTool("key", charString)
+			continue
+		}
+		continue
+	} else {
+		doXDoTool("key", message_string)
+	}
+	continue
 }
 
 if characterRegex.MatchString(message_string) {

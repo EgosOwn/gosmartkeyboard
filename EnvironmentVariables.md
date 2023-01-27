@@ -1,6 +1,17 @@
 # GoSmartKeyboard Environment Variables
 
 
+## Always use xdotool
+
+Some users may always want xdotool, see the [Streaming.md](Streaming.md) file for more information.
+
+--- always use xdotool environment variable
+
+alwaysUseXdotool, alwaysUseXdotoolExists := os.LookupEnv("KEYBOARD_ALWAYS_USE_XDOTOOL")
+
+---
+
+
 ## Authentication token file
 
 The authentication token configuration file is set by the environment variable `KEYBOARD_AUTH_TOKEN_FILE`, but defaults to
@@ -19,7 +30,7 @@ authTokenFile, authTokenFileIsSet := os.LookupEnv("KEYBOARD_AUTH_TOKEN_FILE")
 
 --- get authTokenInput from environment
 
-    authTokenInput, authTokenInputExists := os.LookupEnv("KEYBOARD_AUTH")
+authTokenInput, authTokenInputExists := os.LookupEnv("KEYBOARD_AUTH")
 
 ---
 
@@ -28,7 +39,7 @@ authTokenFile, authTokenFileIsSet := os.LookupEnv("KEYBOARD_AUTH_TOKEN_FILE")
 
 --- get client fifo input file from environment
 
-    clientFifoInputFile, clientFifoInputFileExists := os.LookupEnv("KEYBOARD_FIFO")
+clientFifoInputFile, clientFifoInputFileExists := os.LookupEnv("KEYBOARD_FIFO")
 
 ---
 

@@ -81,14 +81,7 @@ Then we can start the web server and listen for websocket connections.
     package main
 
     import(
-        "os"
         "fmt"
-        "io"
-        "strings"
-        "bufio"
-        "io/ioutil"
-        "log"
-        @{gorilla/websocket import string}
         "keyboard.voidnet.tech/server"
         "keyboard.voidnet.tech/auth"
     )
