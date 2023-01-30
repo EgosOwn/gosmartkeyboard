@@ -4,10 +4,6 @@ Currently the two commands are `type` and `key`. `type` is used to type a charac
 
 `type` is specified by '{kb_cmd:xdotool}:', and `key` is specified by '{kb_cmd:kxdotool}:'. If the command is not specified and `alwaysUseXdotool` is set from the environment variable, it will default to `type`.
 
-``` go
-
-``` go
-
 
 ``` go
 --- handle xdotoool commands
