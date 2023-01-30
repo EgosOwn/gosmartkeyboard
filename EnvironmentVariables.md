@@ -3,13 +3,20 @@
 
 ## Always use xdotool
 
-Some users may always want xdotool, see the [Streaming.md](Streaming.md) file for more information.
+Some users may always want xdotool, see the [Streaming.md](Streaming.md) file for more information
 
+``` go
 --- always use xdotool environment variable
-
-alwaysUseXdotool, alwaysUseXdotoolExists := os.LookupEnv("KEYBOARD_ALWAYS_USE_XDOTOOL")
+var alwaysUseXdotool := false
+alwaysUseXdotoolEnv, alwaysUseXdotoolExists := os.LookupEnv("KEYBOARD_ALWAYS_USE_XDOTOOL")
+if alwaysUseXdotoolExists {
+    if alwaysUseXdotoolEnv == "true" || alwaysUseXdotoolEnv == "1" {
+        alwaysUseXdotool = true
+    }
+}
 
 ---
+```
 
 
 ## Authentication token file
