@@ -2,9 +2,9 @@
 
 We use the Gorilla websocket library to handle the websocket connection.
 
-Most of the time, we can use sendkeys (which uses libinput) to effeciently press keys. However, if we need to send a character that sendkeys doesn't know about, we can use the xdotool command. xdotool is also useful if one does not want to use root.
+Most of the time, we can use the keylogger library (which uses uinput) to effeciently press keys. However, if we need to send a character that keylogger doesn't know about, we can use the xdotool command. xdotool is also useful if one does not want to use root.
 
-xdotool spawns a new process for each keypress, so it's not as effecient as sendkeys.
+xdotool spawns a new process for each keypress, so it's not as effecient as keylogger.
 
 To specify xdotool usage, the client should send a message with the format `{kb_cmd:xdotool}:message` where message is a utf-8 string.
 
@@ -14,7 +14,20 @@ To specify xdotool usage, the client should send a message with the format `{kb_
 func clientConnected(w http.ResponseWriter, r *http.Request) {
 	// regex if string has characters we need to convert to key presses
 	characterRegex, _ := regexp.Compile(`[^\x08]\x08|\t|\n`)
-	keyboard, err := sendkeys.NewKBWrapWithOptions(sendkeys.Noisy)
+
+	// find keyboard device, does not require a root permission
+	keyboard := keylogger.FindKeyboardDevice()
+
+	// check if we found a path to keyboard
+	if len(keyboard) <= 0 {
+		return
+	}
+
+	k, err := keylogger.New(keyboard)
+	if err != nil {
+		return
+	}
+	defer k.Close()
 
 	@{always use xdotool environment variable}
 
@@ -84,7 +97,7 @@ doXDoTool := func(command string, keys string)(err error) {
 
 @{handle xdotoool commands}
 
-@{do streaming sendkeys approach}
+@{do streaming keylogger approach}
 
 ---
 ```

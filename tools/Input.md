@@ -19,7 +19,7 @@ import (
 
 func main(){
     var input string
-    @{get client fifo input file from environment}
+    @{get client  input file from environment}
     if ! clientFifoInputFileExists {
         os.Exit(1)
     }

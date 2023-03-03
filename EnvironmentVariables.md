@@ -7,7 +7,7 @@ Some users may always want xdotool, see the [Streaming.md](Streaming.md) file fo
 
 ``` go
 --- always use xdotool environment variable
-var alwaysUseXdotool := false
+var alwaysUseXdotool = false
 alwaysUseXdotoolEnv, alwaysUseXdotoolExists := os.LookupEnv("KEYBOARD_ALWAYS_USE_XDOTOOL")
 if alwaysUseXdotoolExists {
     if alwaysUseXdotoolEnv == "true" || alwaysUseXdotoolEnv == "1" {
@@ -46,7 +46,7 @@ authTokenInput, authTokenInputExists := os.LookupEnv("KEYBOARD_AUTH")
 
 --- get client fifo input file from environment
 
-clientFifoInputFile, clientFifoInputFileExists := os.LookupEnv("KEYBOARD_FIFO")
+clientFifoInputFile, clientFifoInputFileEnvExists := os.LookupEnv("KEYBOARD_FIFO")
 
 ---
 

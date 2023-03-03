@@ -68,7 +68,7 @@ import(
     "log"
 	"keyboard.voidnet.tech/auth"
     @{gorilla/websocket import string}
-    @{sendkeys import string}
+    @{keylogger import string}
 )
 
 var listener net.Listener

@@ -14,9 +14,9 @@ When the GoSmartKeyboard client is started, it does the following:
 --- handle client command
 
 if len(os.Args) > 1 {
-    @{get client fifo input file from environment}
+    @{get client fifo input file from environment} 
     @{setup client}
-    if clientFifoInputFileExists {
+    if clientFifoInputFileEnvExists {
         @{start client with fifo}
         os.Exit(0)
     }
@@ -97,6 +97,8 @@ if !strings.HasPrefix(connectionURL, "ws://") && !strings.HasPrefix(connectionUR
 
 var inputString string
 
+syscall.Mkfifo(clientFifoInputFile, syscall.S_IFIFO|0666)
+
 for {
     input, err := ioutil.ReadFile(clientFifoInputFile)
     if err != nil {
@@ -116,7 +118,6 @@ for {
 
 ---
 ```
-
 
 
 ## Sending keys from stdin
@@ -187,6 +188,7 @@ package main
 import (
     "strings"
     "io/ioutil"
+    "syscall"
     "io"
     "bufio"
     "log"

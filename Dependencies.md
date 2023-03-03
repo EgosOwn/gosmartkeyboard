@@ -24,14 +24,13 @@ We use sha3 to hash authentication tokens. It is not in the crypto standard libr
 
 ---
 
-# sendkeys
+# keylogger
 
+We use keylogger to get keyboard input on the client and simulate keystrokes on the server.
 
-In order to avoid coding key press simulation for every major platform, we use [sendkeys](https://github.com/yunginnanet/sendkeys). This is a cross-platform library that uses the OS's native key press simulation using [keybd_event](https://github.com/micmonay/keybd_event)
+--- keylogger import string
 
---- sendkeys import string
-
-    "github.com/EgosOwn/sendkeys"
+    "github.com/MarinX/keylogger"
 
 ---
 
