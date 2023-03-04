@@ -4,7 +4,8 @@ weave:
 	util/removefencedcode.py
 tangle:
 	srcweave --formatter srcweave-format --tangle smartkeyboard/ ReadMe.md security/Authentication.md EnvironmentVariables.md Dependencies.md \
-	server/Server.md server/Streaming.md server/Sendkeys.md server/XdotoolCommands.md ThreatModel.md Client.md tools/Tools.md tools/Editor.md tools/Input.md
+	server/Server.md server/Streaming.md server/Sendkeys.md server/XdotoolCommands.md ThreatModel.md Client.md tools/Tools.md tools/Editor.md tools/Input.md \
+	tools/RawCapture.md
 clean:
 	rm -rf docs
 	find smartkeyboard/ -type f -not -name "*_test.go" -delete
@@ -18,6 +19,9 @@ build: tangle
 	- cd smartkeyboard/client && go mod init keyboard.voidnet.tech
 	- cd smartkeyboard/client && go mod tidy
 	- cd smartkeyboard/client && go build -o ../../bin/keyboard-client
+	- cd smartkeyboard/tools/rawcapture && go mod init rawcapture.keyboard.voidnet.tech
+	- cd smartkeyboard/tools/rawcapture && go mod tidy
+	- cd smartkeyboard/tools/rawcapture && go build -o ../../../bin/rawcapture
 
 
 test: tangle
