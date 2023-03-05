@@ -30,7 +30,7 @@ We use keylogger to get keyboard input on the client and simulate keystrokes on 
 
 --- keylogger import string
 
-    "github.com/MarinX/keylogger"
+    "github.com/EgosOwn/keylogger"
 
 ---
 

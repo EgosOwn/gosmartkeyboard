@@ -26,7 +26,7 @@ import (
     "fmt"
     "os"
 	//"os/signal"
-    "github.com/MarinX/keylogger"
+    "github.com/EgosOwn/keylogger"
 )
 //ioutil.WriteFile(clientFifoInputFile, []byte(input), 0644)
 
@@ -57,16 +57,27 @@ func main(){
 
     go receive(signalCh, doneCh)
     */
+    keyboard := ""
 
-    keyboard := keylogger.FindKeyboardDevice()
+
+    if len(os.Args) > 1 {
+        keyboard = os.Args[1]
+    } else {
+        keyboard = keylogger.FindKeyboardDevice()
+    }
     if keyboard == "" {
+        fmt.Println("could not find keyboard")
         os.Exit(1)
     }
+    fmt.Println("Using keyboard " + keyboard)
+
+    
     k, err := keylogger.New(keyboard)
     if err != nil {
         fmt.Println("could not get keyboard")
         os.Exit(1)
     }
+    defer k.Close()
 
 	events := k.Read()
     var key = ""
@@ -78,18 +89,19 @@ func main(){
 		// EvKey is used to describe state changes of keyboards, buttons, or other key-like devices.
 		// check the input_event.go for more events
 		case keylogger.EvKey:
-            key = e.KeyString()
-            if len(key) == 0{
-                fmt.Println(e.Code)
-            } 
+            
+
 			// if the state of key is pressed
 			if e.KeyPress() {
+                key = e.KeyString()
+                fmt.Println(key)
+                fmt.Println(e.Code)
                 ioutil.WriteFile(clientFifoInputFile, []byte(fmt.Sprintf("{KEYDWN}%s", key)), 0644)
-                //fmt.Println(e.Code)
 			}
 
 			// if the state of key is released
 			if e.KeyRelease() {
+                key = e.KeyString()
 				ioutil.WriteFile(clientFifoInputFile, []byte(fmt.Sprintf("{KEYUP}%s", key)), 0644)
 			}
 

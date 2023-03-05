@@ -51,6 +51,13 @@ markdown book is actually the source code
 * Well defined [threat model](ThreatModel.md)
 
 
+# Running
+
+## Server
+
+`sudo KEYBOARD_TCP_BIND_ADDRESS=0.0 KEYBOARD_TCP_BIND_PORT=8080 ./keyboard`
+
+
 # Entrypoint
 
 
