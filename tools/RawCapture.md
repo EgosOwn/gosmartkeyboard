@@ -2,7 +2,7 @@
 
 This tool captures keyboard input from /dev/input/eventX and pipes it to the fifo accordingly.
 
-An escape sequence of QKEYBOARD (QWERTY) will exit the program, but this can be changed via a command line argument.
+An escape sequence of `qkeyboard` (QWERTY) will exit the program, but this can be changed via a command line argument.
 
 
 ## Why
@@ -18,6 +18,7 @@ Generally a user would be in this mode when not typing extensively.
 --- /tools/rawcapture/rawcapture.py
 
 #!/usr/bin/python3
+# This tool adapted from https://github.com/whizse/exclusive-keyboard-access by Sven Arvidsson
 import os
 import sys
 import evdev
@@ -233,8 +234,7 @@ try:
             print(event)
             #e_code = event.code - 1
             e_code = event.code
-            if e_code == 2:
-                break
+
             try:
                 key_str = KEYMAP[e_code]
             except KeyError:
