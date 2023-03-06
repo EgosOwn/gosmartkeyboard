@@ -66,7 +66,6 @@ print("Using device " + device.fn)
 
 print("Grabbing device for exclusive access.")
 device.grab()
-print("Enter numbers, press enter (Ctrl-C to exit).")
 
 write_queue = queue.Queue()
 def write_loop():
