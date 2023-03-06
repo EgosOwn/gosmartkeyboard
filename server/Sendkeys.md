@@ -12,6 +12,9 @@ if strings.HasPrefix(message_string, "{KEYDWN}") {
 } else if strings.HasPrefix(message_string, "{KEYUP}") {
 	key = strings.TrimPrefix(string(message_string), "{KEYUP}")
 	k.Write(0, key)
+}  else if strings.HasPrefix(message_string, "{KEYHLD}") {
+	key = strings.TrimPrefix(string(message_string), "{KEYHLD}")
+	k.Write(2, key)
 } else{
 	for _, key := range message_string {
 		// write once will simulate keyboard press/release, for long press or release, lookup at Write

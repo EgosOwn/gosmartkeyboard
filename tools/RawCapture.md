@@ -70,14 +70,20 @@ print("Enter numbers, press enter (Ctrl-C to exit).")
 
 write_queue = queue.Queue()
 def write_loop():
+    backlog = []
     while True:
         try:
+            while backlog:
+                with open(fifo, "w") as f:
+                    f.write(backlog.pop(0))
+        
             data = write_queue.get()
             with open(fifo, "w") as f:
                 f.write(data)
         except Exception as e:
             print("Error writing to fifo: " + str(e))
             traceback.print_exc()
+            backlog
 
 write_thread = threading.Thread(target=write_loop, daemon=True)
 write_thread.start()
@@ -231,7 +237,8 @@ try:
     for event in device.read_loop():
 
         if event.type == evdev.ecodes.EV_KEY:
-            print(event)
+            if event:
+                print(event)
             #e_code = event.code - 1
             e_code = event.code
 
@@ -245,6 +252,8 @@ try:
                 quit_if_necessry(log)
             elif event.value == 0:
                 key_str = "{KEYUP}" + key_str
+            elif event.value == 2:
+                key_str = "{KEYHLD}" + key_str
             else:
                 print("Unknown value: " + str(event.value))
                 continue
