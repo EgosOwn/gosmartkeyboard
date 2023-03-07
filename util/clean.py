@@ -13,4 +13,4 @@ for f in glob.glob('docs/*.html'):
         for line in lines:
             if line.startswith('<p>```'):
                 continue
-            fout.write(line.replace('.md', '.html').replace('.MD', '.html'))
+            fout.write(line.replace('ReadMe.md', 'index.html').replace('.md', '.html').replace('.MD', '.html'))
