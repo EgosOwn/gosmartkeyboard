@@ -19,8 +19,8 @@ import (
 
 func main(){
     var input string
-    @{get client  input file from environment}
-    if ! clientFifoInputFileExists {
+    @{get client fifo input file from environment}
+    if ! clientFifoInputFileEnvExists {
         os.Exit(1)
     }
     for {

@@ -77,12 +77,6 @@ On first run it will output your authentication token. Store it in a safe place 
 
 It is highly recommended to use SSH forwarding (preferred) or a reverse https proxy to access the server.
 
-### SSH example
-
-To connect with ssh, run this on the client:
-
-`ssh -R 8080:localhost:8080 user@myserver`
-
 
 ### Socket file
 
@@ -94,5 +88,16 @@ It is more secure and mildly more efficient to use a unix socket file. To do thi
 
 From here you can use any program that can write to a FIFO to send keystrokes to the server. For example, you could use `cat` to send a file to the server, or `cowsay` to send a cow message to the server.
 
+
+### SSH example
+
+To connect with ssh, run this on the client:
+
+`ssh -R 8080:localhost:8080 user@myserver`
+
+You would then run the above keyboard-client command with `ws://localhost:8080/sendkeys` as the argument.
+
 ### Tools
+
+There are a few tools provided to help you get started. They are all in the `tools` directory.
 
