@@ -70,6 +70,7 @@ device.grab()
 write_queue = queue.Queue()
 def write_loop():
     backlog = []
+    data = None
     while True:
         try:
             while backlog:
@@ -82,7 +83,8 @@ def write_loop():
         except Exception as e:
             print("Error writing to fifo: " + str(e))
             traceback.print_exc()
-            backlog
+            if data != None:
+                backlog.append(data)
 
 write_thread = threading.Thread(target=write_loop, daemon=True)
 write_thread.start()
