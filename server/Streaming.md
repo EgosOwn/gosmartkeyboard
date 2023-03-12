@@ -57,7 +57,6 @@ func clientConnected(w http.ResponseWriter, r *http.Request) {
 	c.WriteMessage(websocket.TextMessage, []byte("authenticated"))
 
 	for {
-		time.Sleep(25 * time.Millisecond)
 		_, message, err := c.ReadMessage()
 		if err != nil {
 			log.Println("read:", err)
