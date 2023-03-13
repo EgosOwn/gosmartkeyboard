@@ -6,7 +6,7 @@ Most of the time, we can use the keylogger library (which uses uinput) to effeci
 
 xdotool spawns a new process for each keypress, so it's not as effecient as keylogger.
 
-To specify xdotool usage, the client should send a message with the format `{kb_cmd:xdotool}:message` where message is a utf-8 string.
+To specify xdotool usage, the client should send a message with the format `@{use xdotool cmd}message` where message is a utf-8 string.
 
 ``` go
 --- streaming keyboard input
@@ -67,8 +67,10 @@ func clientConnected(w http.ResponseWriter, r *http.Request) {
 		if message_string == "" {
 			message_string = "\n"
 		}
-		
-		@{send keys to system}
+		for _, part := range strings.Split(message_string, "@{payload delimiter}") {
+			message_string = part
+			@{send keys to system}
+		}
 	}
 }
 

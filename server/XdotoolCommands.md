@@ -2,14 +2,14 @@
 
 Currently the two commands are `type` and `key`. `type` is used to type a character and `key` is used to type a special character like `Enter` or `Backspace`.
 
-`type` is specified by '{kb_cmd:xdotool}:', and `key` is specified by '{kb_cmd:kxdotool}:'. If the command is not specified and `alwaysUseXdotool` is set from the environment variable, it will default to `type`.
+`type` is specified by '@{use xdotool cmd}', and `key` is specified by '@{use xdotool key cmd}'. If the command is not specified and `alwaysUseXdotool` is set from the environment variable, it will default to `type`.
 
 
 ``` go
 --- handle xdotoool commands
 
-if alwaysUseXdotool || strings.HasPrefix(message_string, "{kb_cmd:xdotool}:") {
-	message_string = strings.TrimPrefix(message_string, "{kb_cmd:xdotool}:")
+if alwaysUseXdotool || strings.HasPrefix(message_string, "@{use xdotool cmd}") {
+	message_string = strings.TrimPrefix(message_string, "@{use xdotool cmd}")
 	if message_string == "" {
 		message_string = "\n"
 	}
@@ -37,8 +37,8 @@ if alwaysUseXdotool || strings.HasPrefix(message_string, "{kb_cmd:xdotool}:") {
 		doXDoTool("type", message_string)
 	}
 	continue
-} else if strings.HasPrefix(message_string, "{kb_cmd:kxdotool}:") {
-	message_string = strings.TrimPrefix(message_string, "{kb_cmd:kxdotool}:")
+} else if strings.HasPrefix(message_string, "@{use xdotool key cmd}") {
+	message_string = strings.TrimPrefix(message_string, "@{use xdotool key cmd}")
 	if message_string == "" {
 		message_string = "\n"
 	}

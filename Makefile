@@ -1,11 +1,13 @@
 weave:
 	srcweave --formatter srcweave-format --weave docs/ ReadMe.md Building.md Dependencies.md EnvironmentVariables.md LICENSE.md \
 	security/Authentication.md security/ThreatModel.md Plumbing.md server/Server.md server/Streaming.md server/Sendkeys.md server/XdotoolCommands.md \
+	server/StringCommands.md
 	Client.md tools/Tools.md tools/Editor.md tools/Input.md tools/RawCapture.md tools/TUI.md
 	util/clean.py
 tangle:
 	srcweave --formatter srcweave-format --tangle smartkeyboard/ ReadMe.md Plumbing.md security/Authentication.md EnvironmentVariables.md Dependencies.md \
-	server/Server.md server/Streaming.md server/Sendkeys.md server/XdotoolCommands.md security/ThreatModel.md Client.md tools/Tools.md tools/Editor.md tools/Input.md \
+	server/Server.md server/Streaming.md server/Sendkeys.md server/XdotoolCommands.md server/StringCommands.md \
+	security/ThreatModel.md Client.md tools/Tools.md tools/Editor.md tools/Input.md \
 	tools/RawCapture.md tools/TUI.md
 clean:
 	rm -rf docs

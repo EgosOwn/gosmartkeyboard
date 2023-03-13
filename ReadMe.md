@@ -6,7 +6,7 @@ Copyright [Kevin Froman](https://chaoswebs.net/) [Licensed under GPLv3](LICENSE.
 Work in progress
 
 --- version
-0.0.1 
+2.0.0 
 ---
 
 
