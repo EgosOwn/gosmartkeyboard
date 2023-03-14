@@ -248,13 +248,13 @@ try:
             except KeyError:
                 print("Unknown key: " + str(e_code))
             if event.value == 1:
-                key_str = "@{keydown cmd}" + key_str
+                key_str = "@{payload delimiter}@{keydown cmd}" + key_str
                 log.append(e_code)
                 quit_if_necessry(log)
             elif event.value == 0:
-                key_str = "@{keyup cmd}" + key_str
+                key_str = "@{payload delimiter}@{keyup cmd}" + key_str
             elif event.value == 2:
-                key_str = "@{keyheld cmd}" + key_str
+                key_str = "@{payload delimiter}@{keyheld cmd}" + key_str
             else:
                 print("Unknown value: " + str(event.value))
                 continue

@@ -107,7 +107,7 @@ for {
     }
 
     inputString = addXDoToolIfNonQWERTY(string(readData))
-    input := []byte("@{payload delimiter}" + inputString)
+    input := []byte(inputString)
     if len(input) > 0 {
         err = client.WriteMessage(websocket.TextMessage, input)
         if err != nil {
@@ -147,7 +147,7 @@ for {
         }
         log.Fatal(err)
     }
-    err = client.WriteMessage(websocket.TextMessage, []byte("@{payload delimiter}" + key))
+    err = client.WriteMessage(websocket.TextMessage, []byte(key))
     if err != nil {
         log.Fatal("write:", err)
     }
